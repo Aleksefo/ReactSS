@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 
-class SelectedScreen extends Component {
+class AddScreen extends Component {
 	state = {}
 
-	static navigationOptions = ({ navigation }) => ({
-		title: `Selected ${navigation.state.params.user}`,
-	});
+	static navigationOptions = {
+		title: 'Add',
+	}
 
 	render() {
 		const {} = styles
 		return (
-	    <View></View>
+	        <View></View>
 		)
 	}
 }
@@ -21,4 +21,4 @@ const styles  = StyleSheet.create({
 	},
 })
 
-export default SelectedScreen
+export default AddScreen

@@ -5,7 +5,7 @@ class DetailsScreen extends Component {
 	state = {}
 
 	static navigationOptions = {
-		title: 'Welcome',
+		title: 'Details',
 	}
 
 	render() {
