@@ -2,11 +2,13 @@ import {StackNavigator} from 'react-navigation'
 import HomeScreen from '../screens/HomeScreen'
 import SelectedScreen from '../screens/SelectedScreen'
 import DetailsScreen from '../screens/DetailsScreen'
+import AddScreen from '../screens/AddScreen'
 
 export default MainStack = StackNavigator({
 		Home: {screen: HomeScreen},
 		Selected: {screen: SelectedScreen},
 		Details: {screen: DetailsScreen},
+		Add: {screen: AddScreen},
 	}
 // , {
 // 	navigationOptions: ({navigation}) => ({
