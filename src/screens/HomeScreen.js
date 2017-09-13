@@ -32,7 +32,7 @@ class HomeScreen extends Component {
 
 	renderFeeds() {
 		return this.state.text.map(entry =>
-			<Text>{entry}</Text>
+			<Text key={entry}>{entry}</Text>
 		)
 	}
 
