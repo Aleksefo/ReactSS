@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, TouchableOpacity, Text, Button} from 'react-native'
+import {View, StyleSheet, TouchableOpacity, Text, Button, AsyncStorage} from 'react-native'
 
 class HomeScreen extends Component {
-	state = {}
+	state = {text: []}
 
 	static navigationOptions = ({ navigation }) => ({
-		title: `Home ${navigation.state.params.newFeed}`,
+		// title: `Home ${navigation.state.params.newFeed}`,
 
 		// ({navigation}) => ({
 		headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}>
@@ -14,6 +14,27 @@ class HomeScreen extends Component {
 			<Text>Click</Text>
 		</TouchableOpacity>,
 	})
+
+	componentDidMount() {
+		try {
+			AsyncStorage.getItem('RSSListKey')
+				.then(JSON.parse).then(text => {
+						// return items.map(item =>
+						console.log(text)
+						return this.setState({text})
+						// )
+					}
+				)
+		} catch (error) {
+			console.log('saveRSSLocally error ' + error)
+		}
+	}
+
+	renderFeeds() {
+		return this.state.text.map(entry =>
+			<Text>{entry}</Text>
+		)
+	}
 
 	render() {
 		const {} = styles
@@ -24,6 +45,8 @@ class HomeScreen extends Component {
 					onPress={() => navigate('Selected', { user: 'Lucy' })}
 					title="Chat with Lucy"
 				/>
+				<Text>{this.state.text}</Text>
+				{this.renderFeeds()}
 			</View>
 		)
 	}
