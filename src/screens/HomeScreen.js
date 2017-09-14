@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, TouchableOpacity, Text, Button, AsyncStorage} from 'react-native'
+const parseString = require('react-native-xml2js').parseString
 
 class HomeScreen extends Component {
-	state = {text: []}
+	state = {feeds: [], feedsDetails: [{title: 'title',link: 'link'}]}
 
 	static navigationOptions = ({ navigation }) => ({
 		// title: `Home ${navigation.state.params.newFeed}`,
@@ -17,11 +18,11 @@ class HomeScreen extends Component {
 
 	componentDidMount() {
 		try {
-			AsyncStorage.getItem('RSSListKey')
-				.then(JSON.parse).then(text => {
+			AsyncStorage.getItem('RSSListKeys')
+				.then(JSON.parse).then(feeds => {
 						// return items.map(item =>
-						console.log(text)
-						return this.setState({text})
+						console.log(feeds)
+						return this.setState({feeds})
 						// )
 					}
 				)
@@ -30,23 +31,57 @@ class HomeScreen extends Component {
 		}
 	}
 
+	fetchRSS() {
+		return this.state.feeds.map(entry =>
+			fetch(entry)
+				.then(response => response.text())
+				.then((response) => {
+					console.log('hello')
+					parseString(response, function (err, result) {
+						console.log(this.state.feedsDetails)
+						console.log(result.feed.title.toString())
+						let title = result.feed.title.toString()
+					// 	// let description = result.feed.description.toString()
+						let link = result.feed.link.toString()
+						// let image = result.feed.image.toString()
+						// let joinedState = this.state.feedsDetails.push({title, link})
+						// this.setState({feedsDetails: joinedState})
+
+						{/*<Text key={result.feed.title.toString()}>{result.feed.title.toString()}</Text>*/}
+					})
+				}).catch((err) => {
+				console.log('fetch', err)
+			})
+		)
+	}
+
 	renderFeeds() {
-		return this.state.text.map(entry =>
+		return this.state.feeds.map(entry =>
 			<Text key={entry}>{entry}</Text>
 		)
 	}
+	// ScrollView
+// <TouchableOpacity>
+// <Image
+// source={{uri: video.thumbnail}}
+// style={{height: 280}}
+// resizeMode={Image.resizeMode.cover}
+// />
+// </TouchableOpacity>
 
 	render() {
 		const {} = styles
 		const {navigate} = this.props.navigation
+		console.log(this.state.feedsDetails)
 		return (
 			<View>
 				<Button
-					onPress={() => navigate('Selected', { user: 'Lucy' })}
+					// onPress={() => navigate('Selected', { user: 'Lucy' })}
+					 onPress={this.fetchRSS.bind(this)}
 					title="Chat with Lucy"
 				/>
-				<Text>{this.state.text}</Text>
 				{this.renderFeeds()}
+				{/*{this.fetchRSS()}*/}
 			</View>
 		)
 	}

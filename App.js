@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, Text, View, StatusBar} from 'react-native'
 import MainNavigator from './src/navigation/MainNavigator'
 
-const parseString = require('react-native-xml2js').parseString
+
 //convert that
 export default class App extends React.Component {
 	render() {
