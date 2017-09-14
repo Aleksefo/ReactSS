@@ -8,7 +8,7 @@ export default class App extends React.Component {
 	render() {
 		// console.log("Ho")
 		// fetch('https://www.youtube.com/feeds/videos.xml?channel_id=UCTFN4eJu6uAatDb6VR9XZag')
-		// 	.then(response => response.text())
+		// 	.then(response => response.url())
 		// 	.then((response) => {
 		// 		parseString(response, function (err, result) {
 		// 			console.log(result.feed.entry)

@@ -4,21 +4,16 @@ import {Sae} from 'react-native-textinput-effects'
 import {FontAwesome} from '@expo/vector-icons'
 import {DOMParser} from 'xmldom'
 
-const parseString = require('react-native-xml2js').parseString
-
 class AddScreen extends Component {
-	state = {text: '', feedInf: []}
+	state = {url: '', feedInf: {fTitle: '',fLink: 'link',fDescription: '',fImage: ''} }
 
 	static navigationOptions = {
 		title: 'Add new RSS feed',
 	}
 
 	parseVideos(responseText) {
-		console.log('Parsing the feed...')
-		console.log("Got feed with length: " + responseText.length);
-		console.log("responsetext: %O", responseText);
-		let doc = new DOMParser().parseFromString(responseText, 'text/xml');
-		let feedInf = [];
+		let doc = new DOMParser().parseFromString(responseText, 'url/xml');
+		let feedInf
 		let fLink = ''
 		let fDescription = ''
 		let fImage = ''
@@ -40,23 +35,25 @@ class AddScreen extends Component {
 		let videos = doc.getElementsByTagName('yt:videoId');
 		let thumbs = doc.getElementsByTagName('media:thumbnail');
 		// for (let i=0; i < videos.length; i++) {
-		feedInf.push({
-				// id: videos[i].textContent,
-				// thumbnail: thumbs[i].getAttribute('url')
-				title: fTitle,
-				link: fLink,
-				description: fDescription,
-				image: fImage
-			})
+		// feedInf.push(
+		// 		// id: videos[i].textContent,
+		// 		// thumbnail: thumbs[i].getAttribute('url')
+		// 		fTitle,
+		// 		fLink,
+		// 		fDescription,
+		// 		fImage
+		//
+		// 	)
 		// }
-		this.setState({title: fTitle});
-		this.setState({feedInf: feedInf});
-		console.log(this.state.feedInf)
+		// this.setState({fTitle});
+		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
+		console.log('updated state:',this.state)
+		// console.log(this.state.fTitle)
 	}
 
 
 	async fetchRSS() {
-		await fetch(this.state.text)
+		await fetch(this.state.url)
 			.then(response => response.text())
 			.then((responseText) => {
 				this.parseVideos(responseText)
@@ -65,46 +62,26 @@ class AddScreen extends Component {
 			})
 	}
 
-	testShow() {
-		let x = this.fetchRSS()
-		console.log('Heres the : %O', x)
-		let result = parseString(x, function (err, result) {
-			// console.log(this.state.feedsDetails)
-			// console.log(result.feed.title.toString())
-			// let title = result.feed.title.toString()
-			// 	// let description = result.feed.description.toString()
-			// let link = result.feed.link.toString()
-			// let image = result.feed.image.toString()
-			// return [{title: 'title',link: 'link'}]
-
-			return result
-
-			// this.setState({feedsDetails: joinedState})
-		})
-		console.log('Heres the result')
-		console.log(result)
-	}
-
-
 	async saveRSSLocally() {
 		try {
-			await AsyncStorage.getItem('RSSListKeys')
+			await AsyncStorage.getItem('RSSListData')
 				.then(keys => {
 					keys = keys == null ? [] : JSON.parse(keys)
-					keys.push(this.state.text)
-					return AsyncStorage.setItem('RSSListKeys', JSON.stringify(keys))
+					keys.push(this.state)
+					return AsyncStorage.setItem('RSSListData', JSON.stringify(keys))
 				})
-			// await AsyncStorage.setItem('RSSListKey', this.state.text);
+			// await AsyncStorage.setItem('RSSListKey', this.state.url);
 		} catch (error) {
 			console.log('saveRSSLocally error ' + error)
 		}
-		console.log('saveRSSLocally keys: ', AsyncStorage.getItem('RSSListKeys'))
-		this.props.navigation.navigate('Home', {newFeed: this.state.text})
+		console.log('saveRSSLocally keys: ', AsyncStorage.getItem('RSSListData'))
+		this.props.navigation.navigate('Home', {newFeed: this.state.url})
 	}
 
 	render() {
 		const {} = styles
 		// const {navigate} = this.props.navigation
+		console.log('render: ',this.state.feedInf)
 		return (
 			<View>
 				<Sae
@@ -115,12 +92,12 @@ class AddScreen extends Component {
 					// TextInput props
 					autoCapitalize={'none'}
 					autoCorrect={false}
-					// onChangeText={(text) => this.setState({text})}
-					onChangeText={(text) => this.setState({text})}
+					// onChangeText={(url) => this.setState({url})}
+					onChangeText={(url) => this.setState({url: url})}
 				/>
 
 				<Button
-					// onPress={() => navigate('Home', {newFeed: this.state.text})}
+					// onPress={() => navigate('Home', {newFeed: this.state.url})}
 					onPress={() => this.saveRSSLocally()}
 					title="Add feed"
 					color="#841584"
@@ -130,8 +107,9 @@ class AddScreen extends Component {
 					onPress={() => this.fetchRSS()}
 					title="Chat with Lucy"
 				/>
-				<Text>{this.state.text}</Text>
-				{/*<Text>{this.state.feedInf}</Text>*/}
+				<Text>{this.state.url}</Text>
+				<Text>{this.state.fTitle}</Text>
+				<Text>{this.state.feedInf.fLink}</Text>
 			</View>
 		)
 	}

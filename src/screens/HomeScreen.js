@@ -18,23 +18,25 @@ class HomeScreen extends Component {
 
 	componentDidMount() {
 		try {
-			AsyncStorage.getItem('RSSListKeys')
+			AsyncStorage.getItem('RSSListData')
 				.then(JSON.parse).then(feeds => {
 						// return items.map(item =>
 						console.log(feeds)
-						return this.setState({feeds})
+						this.setState({feeds})
+						console.log('super new state ',this.state)
 						// )
 					}
 				)
 		} catch (error) {
 			console.log('saveRSSLocally error ' + error)
 		}
+
 	}
 
 	fetchRSS() {
 		return this.state.feeds.map(entry =>
 			fetch(entry)
-				.then(response => response.text())
+				.then(response => response.url())
 				.then((response) => {
 					console.log('hello')
 					parseString(response, function (err, result) {
@@ -57,7 +59,7 @@ class HomeScreen extends Component {
 
 	renderFeeds() {
 		return this.state.feeds.map(entry =>
-			<Text key={entry}>{entry}</Text>
+			<Text key={entry.feedInf.fTitle}>{entry.feedInf.fTitle}</Text>
 		)
 	}
 	// ScrollView
