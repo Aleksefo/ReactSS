@@ -13,7 +13,6 @@ class AddScreen extends Component {
 
 	parseVideos(responseText) {
 		let doc = new DOMParser().parseFromString(responseText, 'url/xml');
-		let feedInf
 		let fLink = ''
 		let fDescription = ''
 		let fImage = ''
@@ -48,9 +47,7 @@ class AddScreen extends Component {
 		// this.setState({fTitle});
 		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
 		console.log('updated state:',this.state)
-		// console.log(this.state.fTitle)
 	}
-
 
 	async fetchRSS() {
 		await fetch(this.state.url)
@@ -70,11 +67,9 @@ class AddScreen extends Component {
 					keys.push(this.state)
 					return AsyncStorage.setItem('RSSListData', JSON.stringify(keys))
 				})
-			// await AsyncStorage.setItem('RSSListKey', this.state.url);
 		} catch (error) {
 			console.log('saveRSSLocally error ' + error)
 		}
-		console.log('saveRSSLocally keys: ', AsyncStorage.getItem('RSSListData'))
 		this.props.navigation.navigate('Home', {newFeed: this.state.url})
 	}
 
@@ -92,8 +87,7 @@ class AddScreen extends Component {
 					// TextInput props
 					autoCapitalize={'none'}
 					autoCorrect={false}
-					// onChangeText={(url) => this.setState({url})}
-					onChangeText={(url) => this.setState({url: url})}
+					onChangeText={(url) => this.setState({url})}
 				/>
 
 				<Button

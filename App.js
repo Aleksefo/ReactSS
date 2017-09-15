@@ -1,23 +1,12 @@
 import React from 'react'
-import {StyleSheet, Text, View, StatusBar} from 'react-native'
+import {StyleSheet, View, StatusBar} from 'react-native'
 import MainNavigator from './src/navigation/MainNavigator'
 
-
-//convert that
 export default class App extends React.Component {
 	render() {
-		// console.log("Ho")
-		// fetch('https://www.youtube.com/feeds/videos.xml?channel_id=UCTFN4eJu6uAatDb6VR9XZag')
-		// 	.then(response => response.url())
-		// 	.then((response) => {
-		// 		parseString(response, function (err, result) {
-		// 			console.log(result.feed.entry)
-		// 		});
-		// 	}).catch((err) => {
-		// 	// console.log('fetch', err)
-		// })
+		console.log("App rendered")
 		return (
-			<View style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+			<View style={styles.app}>
 				<MainNavigator />
 			</View>
 
@@ -26,10 +15,8 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	container: {
+	app: {
 		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
+		marginTop: StatusBar.currentHeight,
 	},
 });
