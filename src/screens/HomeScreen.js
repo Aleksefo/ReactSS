@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, TouchableOpacity, Text, Button, AsyncStorage} from 'react-native'
+import FeedCard from '../components/FeedCard'
 
 class HomeScreen extends Component {
 	state = {feeds: [], feedsDetails: [{title: 'title',link: 'link'}]}
@@ -30,15 +31,18 @@ class HomeScreen extends Component {
 
 	renderFeeds() {
 		return this.state.feeds.map(entry =>
-			<View>
-				<Text key={entry.feedInf.fTitle}>{entry.feedInf.fTitle}</Text>
-				<Text key={entry.feedInf.fLink}>{entry.feedInf.fLink}</Text>
-				<Text key={entry.feedInf.fDescription}>{entry.feedInf.fDescription}</Text>
-				<Text key={entry.feedInf.fImage}>{entry.feedInf.fImage}</Text>
-			</View>
+			<FeedCard key={entry.feedInf.fTitle} feed={entry.feedInf}/>
+
 
 		)
 	}
+
+// {/*<View>*/}
+// {/*<Text key={entry.feedInf.fTitle}>{entry.feedInf.fTitle}</Text>*/}
+// {/*<Text key={entry.feedInf.fLink}>{entry.feedInf.fLink}</Text>*/}
+// {/*<Text key={entry.feedInf.fDescription}>{entry.feedInf.fDescription}</Text>*/}
+// {/*<Text key={entry.feedInf.fImage}>{entry.feedInf.fImage}</Text>*/}
+// {/*</View>*/}
 	// ScrollView
 // <TouchableOpacity>
 // <Image
@@ -55,11 +59,12 @@ class HomeScreen extends Component {
 		return (
 			<View>
 				<Button
-					{/*// onPress={() => navigate('Selected', { user: 'Lucy' })}*/}
+					onPress={() => navigate('Selected', { user: 'Lucy' })}
 					 // onPress={this.fetchRSS.bind(this)}
 					title="Chat with Lucy"
 				/>
 				{this.renderFeeds()}
+				{/*<FeedCard></FeedCard>*/}
 			</View>
 		)
 	}
