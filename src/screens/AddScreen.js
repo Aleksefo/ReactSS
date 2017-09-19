@@ -16,7 +16,7 @@ class AddScreen extends Component {
 		let fLink = ''
 		let fDescription = ''
 		let fImage = ''
-		console.log("doc: %O", doc)
+		// console.log("doc: %O", doc)
 		let fTitle = doc.getElementsByTagName("title")[0].childNodes[0].nodeValue
 		try {
 			fLink = doc.getElementsByTagName("uri")[0].childNodes[0].nodeValue
@@ -46,7 +46,7 @@ class AddScreen extends Component {
 		// }
 		// this.setState({fTitle});
 		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
-		console.log('updated state:',this.state)
+		// console.log('updated state:',this.state)
 	}
 
 	async fetchRSS() {
@@ -76,7 +76,7 @@ class AddScreen extends Component {
 	render() {
 		const {} = styles
 		// const {navigate} = this.props.navigation
-		console.log('render: ',this.state.feedInf)
+		// console.log('render: ',this.state.feedInf)
 		return (
 			<View>
 				<Sae

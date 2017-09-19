@@ -19,9 +19,9 @@ class HomeScreen extends Component {
 		try {
 			AsyncStorage.getItem('RSSListData')
 				.then(JSON.parse).then(feeds => {
-					console.log(feeds)
+					// console.log(feeds)
 					this.setState({feeds})
-					console.log('super new state ', this.state)
+					// console.log('super new state ', this.state)
 				}
 			)
 		} catch (error) {
@@ -31,7 +31,7 @@ class HomeScreen extends Component {
 
 	renderFeeds() {
 		return this.state.feeds.map(entry =>
-			<TouchableOpacity key={entry.feedInf.fTitle} onPress={() => this.props.navigation.navigate('Selected', {feedTitle: entry.feedInf.fTitle})}>
+			<TouchableOpacity key={entry.feedInf.fTitle} onPress={() => this.props.navigation.navigate('Selected', {entry: entry})}>
 				<FeedCard  feed={entry.feedInf} url={entry.url}/>
 			</TouchableOpacity>
 		)
@@ -55,7 +55,7 @@ class HomeScreen extends Component {
 	render() {
 		const {} = styles
 		const {navigate} = this.props.navigation
-		console.log(this.state.feedsDetails)
+		// console.log(this.state.feedsDetails)
 		return (
 			<View style={{flex: 1}}>
 				{/*<Button*/}
