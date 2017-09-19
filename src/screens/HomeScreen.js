@@ -3,9 +3,9 @@ import {View, StyleSheet, TouchableOpacity, Text, Button, AsyncStorage} from 're
 import FeedCard from '../components/FeedCard'
 
 class HomeScreen extends Component {
-	state = {feeds: [], feedsDetails: [{title: 'title',link: 'link'}]}
+	state = {feeds: [], feedsDetails: [{title: 'title', link: 'link'}]}
 
-	static navigationOptions = ({ navigation }) => ({
+	static navigationOptions = ({navigation}) => ({
 		// title: `Home ${navigation.state.params.newFeed}`,
 
 
@@ -19,11 +19,11 @@ class HomeScreen extends Component {
 		try {
 			AsyncStorage.getItem('RSSListData')
 				.then(JSON.parse).then(feeds => {
-						console.log(feeds)
-						this.setState({feeds})
-						console.log('super new state ',this.state)
-					}
-				)
+					console.log(feeds)
+					this.setState({feeds})
+					console.log('super new state ', this.state)
+				}
+			)
 		} catch (error) {
 			console.log('saveRSSLocally error ' + error)
 		}
@@ -31,9 +31,9 @@ class HomeScreen extends Component {
 
 	renderFeeds() {
 		return this.state.feeds.map(entry =>
-			<FeedCard key={entry.feedInf.fTitle} feed={entry.feedInf}/>
-
-
+			<TouchableOpacity key={entry.feedInf.fTitle} onPress={() => this.props.navigation.navigate('Selected', {feedTitle: entry.feedInf.fTitle})}>
+				<FeedCard  feed={entry.feedInf} url={entry.url}/>
+			</TouchableOpacity>
 		)
 	}
 
@@ -57,12 +57,12 @@ class HomeScreen extends Component {
 		const {navigate} = this.props.navigation
 		console.log(this.state.feedsDetails)
 		return (
-			<View>
-				<Button
-					onPress={() => navigate('Selected', { user: 'Lucy' })}
-					 // onPress={this.fetchRSS.bind(this)}
-					title="Chat with Lucy"
-				/>
+			<View style={{flex: 1}}>
+				{/*<Button*/}
+				{/*onPress={() => navigate('Selected', { user: 'Lucy' })}*/}
+				{/*// onPress={this.fetchRSS.bind(this)}*/}
+				{/*title="Chat with Lucy"*/}
+				{/*/>*/}
 				{this.renderFeeds()}
 				{/*<FeedCard></FeedCard>*/}
 			</View>

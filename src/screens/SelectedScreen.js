@@ -5,7 +5,7 @@ class SelectedScreen extends Component {
 	state = {}
 
 	static navigationOptions = ({ navigation }) => ({
-		title: `Selected ${navigation.state.params.user}`,
+		title: `${navigation.state.params.feedTitle}`,
 	});
 
 	render() {
