@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, Text, ScrollView} from 'react-native'
 import {DOMParser} from 'xmldom'
+import NewsCard from '../components/NewsCard'
 
 class SelectedScreen extends Component {
 	state = {
@@ -34,9 +35,9 @@ class SelectedScreen extends Component {
 		let dates = doc.getElementsByTagName('pubDate');
 		let videos = doc.getElementsByTagName('yt:videoId');
 		let thumbs = doc.getElementsByTagName('media:thumbnail');
-		for (let i=1; i < dates.length; i++) {
+		for (let i = 1; i < dates.length; i++) {
 			objs.push({
-				title: titles[i+1].childNodes[0].nodeValue,
+				title: titles[i + 1].childNodes[0].nodeValue,
 				// id: videos[i].textContent,
 				// thumbnail: thumbs[i].getAttribute('url'),
 				// title: titles[i+1].childNodes[0].nodeValue,
@@ -45,27 +46,25 @@ class SelectedScreen extends Component {
 		}
 		// this.setState({fTitle});
 		this.setState({news: objs});
-		console.log('updated Video state:',this.state)
+		console.log('updated Video state:', this.state)
 	}
 
 	renderNews() {
 		return this.state.news.map(entry =>
-			<View>
-				<Text>{entry.title}</Text>
-			</View>
+			<NewsCard entry={entry}/>
 		)
 	}
 
 	render() {
 		const {} = styles
 		return (
-				<ScrollView style={{flex: 1, paddingTop: 20}}>
-					{this.renderNews()}
-					{/*<ListView*/}
-					{/*dataSource={this.state.dataSource}*/}
-					{/*renderRow={(rowData) => <Text>{rowData.title}, {rowData.pubDate}</Text>}*/}
-					{/*/>*/}
-				</ScrollView>
+			<ScrollView style={{flex: 1, paddingTop: 20}}>
+				{this.renderNews()}
+				{/*<ListView*/}
+				{/*dataSource={this.state.dataSource}*/}
+				{/*renderRow={(rowData) => <Text>{rowData.title}, {rowData.pubDate}</Text>}*/}
+				{/*/>*/}
+			</ScrollView>
 		)
 	}
 }

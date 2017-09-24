@@ -4,6 +4,7 @@ import SelectedScreen from '../screens/SelectedScreen'
 import DetailsScreen from '../screens/DetailsScreen'
 import AddScreen from '../screens/AddScreen'
 import FeedCard from '../components/FeedCard'
+import NewsCard from '../components/NewsCard'
 
 export default MainStack = StackNavigator({
 		Home: {screen: HomeScreen},
@@ -11,7 +12,7 @@ export default MainStack = StackNavigator({
 		Details: {screen: DetailsScreen},
 		Add: {screen: AddScreen},
 		FeedCard: {screen: FeedCard},
-
+		NewsCard: {screen: NewsCard},
 	}
 // , {
 // 	navigationOptions: ({navigation}) => ({
