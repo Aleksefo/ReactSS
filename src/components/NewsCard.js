@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native'
+import Swipeout from 'react-native-swipeout'
 
 const NewsCard = (props) => {
 	const {styleCard, styleText, styleDate, styleDescription, styleImage} = styles
@@ -8,12 +9,20 @@ const NewsCard = (props) => {
 	// 	descr = props.feed.fDescription
 	// }
 console.log('entry props',props.entry)
+	var swipeoutBtns = [
+		{
+			text: 'Button'
+		}
+	]
+
 	return (
 		<View style={styleCard}>
+			<Swipeout right={swipeoutBtns}>
 			<Text style={styleText}>{props.entry.title}</Text>
 			<Text style={styleDate}>{props.entry.date}</Text>
 			{/*<Text>{props.entry.link}</Text>*/}
 			{/*<Text>{props.entry.description}</Text>*/}
+			</Swipeout>
 		</View>
 	)
 	// return (

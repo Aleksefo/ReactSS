@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity, Linking} from 'react-native'
 import {DOMParser} from 'xmldom'
 import NewsCard from '../components/NewsCard'
+import {SwipeableFlatList} from 'react-native-swipeable-flat-list'
 
 class SelectedScreen extends Component {
 	state = {
@@ -53,12 +54,83 @@ class SelectedScreen extends Component {
 		console.log('updated Video state:', this.state)
 	}
 
+	// renderNews() {
+	// 	return this.state.news.map(entry =>
+	// 		<TouchableOpacity key={entry.link}
+	// 		                  onPress={() => Linking.openURL(entry.link)}>
+	// 			<NewsCard entry={entry}/>
+	// 		</TouchableOpacity>
+	//
+	// 	)
+	// }
+
 	renderNews() {
-		return this.state.news.map(entry =>
-			<TouchableOpacity key={entry.link}
-			                  onPress={() => Linking.openURL(entry.link)}>
-				<NewsCard entry={entry}/>
-			</TouchableOpacity>
+		return (
+			<View style={styles.container}>
+				<SwipeableFlatList
+					data={this.state.news}
+					renderItem={({item}) => (
+						<TouchableOpacity
+							onPress={() => Linking.openURL(item.link)}
+							style={{
+								height: 60,
+							}}
+						>
+							<View
+								style={{
+									backgroundColor: 'lightgrey',
+									borderColor: 'grey',
+									borderWidth: 1,
+									flex: 1,
+									justifyContent: 'center',
+									padding: 8,
+								}}
+							>
+								<Text
+									style={{
+										backgroundColor: 'transparent',
+										color: 'black',
+										fontSize: 16,
+									}}
+								>
+									{item.title}
+								</Text>
+							</View>
+						</TouchableOpacity>
+					)}
+					renderRight={({item}) => (
+						<TouchableOpacity
+							style={{
+								height: 60,
+								width: 80,
+							}}
+						>
+							<View
+								style={{
+									backgroundColor: 'cornflowerblue',
+									borderColor: 'black',
+									borderWidth: 1,
+									flex: 1,
+									justifyContent: 'center',
+									padding: 8,
+								}}
+							>
+								<Text
+									style={{
+										backgroundColor: 'transparent',
+										color: 'black',
+										fontSize: 16,
+										paddingLeft: 10,
+									}}
+								>
+									Share
+								</Text>
+							</View>
+						</TouchableOpacity>
+					)}
+					backgroundColor={'white'}
+				/>
+			</View>
 		)
 	}
 
@@ -77,7 +149,22 @@ class SelectedScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-	styleTop: {},
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		//alignItems: 'center',
+		backgroundColor: '#F5FCFF',
+	},
+	welcome: {
+		fontSize: 20,
+		textAlign: 'center',
+		margin: 10,
+	},
+	instructions: {
+		textAlign: 'center',
+		color: '#333333',
+		marginBottom: 5,
+	},
 })
 
 export default SelectedScreen
