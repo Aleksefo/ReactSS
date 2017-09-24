@@ -2,16 +2,18 @@ import React from 'react'
 import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native'
 
 const NewsCard = (props) => {
-	const {styleCard, styleText, styleTitle, styleDescription, styleImage} = styles
+	const {styleCard, styleText, styleDate, styleDescription, styleImage} = styles
 	let descr = 'No description provided'
 	// if (props.feed.fDescription !== '') {
 	// 	descr = props.feed.fDescription
 	// }
-
+console.log('entry props',props.entry)
 	return (
-		<View>
-			<Text>Hi</Text>
-			<Text>{props.entry.title}</Text>
+		<View style={styleCard}>
+			<Text style={styleText}>{props.entry.title}</Text>
+			<Text style={styleDate}>{props.entry.date}</Text>
+			{/*<Text>{props.entry.link}</Text>*/}
+			{/*<Text>{props.entry.description}</Text>*/}
 		</View>
 	)
 	// return (
@@ -28,7 +30,7 @@ const NewsCard = (props) => {
 const styles = StyleSheet.create({
 	styleCard: {
 		// flex: 1,
-		flexDirection: 'row',
+		// flexDirection: 'row',
 		justifyContent: 'space-between',
 		borderWidth: 1,
 		borderRadius: 2,
@@ -42,16 +44,17 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 		marginTop: 10,
-		height: 50,
+		// height: 50,
 		backgroundColor: 'white',
 	},
 	styleText: {
 		marginLeft: 5,
 		marginTop: 5,
 	},
-	styleTitle: {
-
-		fontWeight: 'bold',
+	styleDate: {
+		fontSize: 10,
+		textAlign: 'right',
+		marginRight: 5,
 	},
 	styleDescription: {},
 	styleImage: {

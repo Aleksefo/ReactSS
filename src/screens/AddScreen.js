@@ -74,7 +74,7 @@ class AddScreen extends Component {
 	}
 
 	render() {
-		const {} = styles
+		// const {} = styles
 		// const {navigate} = this.props.navigation
 		// console.log('render: ',this.state.feedInf)
 		return (

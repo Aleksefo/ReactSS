@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, Text, ScrollView} from 'react-native'
+import {View, StyleSheet, Text, ScrollView, TouchableOpacity, Linking} from 'react-native'
 import {DOMParser} from 'xmldom'
 import NewsCard from '../components/NewsCard'
 
@@ -33,6 +33,8 @@ class SelectedScreen extends Component {
 		let objs = []
 		let titles = doc.getElementsByTagName('title');
 		let dates = doc.getElementsByTagName('pubDate');
+		let links = doc.getElementsByTagName('link');
+		let descriptions = doc.getElementsByTagName('description');
 		let videos = doc.getElementsByTagName('yt:videoId');
 		let thumbs = doc.getElementsByTagName('media:thumbnail');
 		for (let i = 1; i < dates.length; i++) {
@@ -41,7 +43,9 @@ class SelectedScreen extends Component {
 				// id: videos[i].textContent,
 				// thumbnail: thumbs[i].getAttribute('url'),
 				// title: titles[i+1].childNodes[0].nodeValue,
-				date: dates[i].childNodes[0].nodeValue
+				date: dates[i].childNodes[0].nodeValue,
+				link: links[i + 1].childNodes[0].nodeValue,
+				description: descriptions[i].childNodes[0].nodeValue,
 			})
 		}
 		// this.setState({fTitle});
@@ -51,14 +55,17 @@ class SelectedScreen extends Component {
 
 	renderNews() {
 		return this.state.news.map(entry =>
-			<NewsCard entry={entry}/>
+			<TouchableOpacity key={entry.link}
+			                  onPress={() => Linking.openURL(entry.link)}>
+				<NewsCard entry={entry}/>
+			</TouchableOpacity>
 		)
 	}
 
 	render() {
-		const {} = styles
+		// const {} = styles
 		return (
-			<ScrollView style={{flex: 1, paddingTop: 20}}>
+			<ScrollView style={{flex: 1}}>
 				{this.renderNews()}
 				{/*<ListView*/}
 				{/*dataSource={this.state.dataSource}*/}

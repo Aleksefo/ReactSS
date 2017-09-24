@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 		marginTop: 10,
-		height: 50,
+		// height: 50,
 		backgroundColor: 'white',
 	},
 	styleText: {
+		flex: 0.75,
 		marginLeft: 5,
 		marginTop: 5,
+		marginBottom: 5,
 	},
 	styleTitle: {
 
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
 	styleDescription: {},
 	styleImage: {
 		width: 100,
+		flex: 0.25,
 
 	},
 

@@ -53,7 +53,7 @@ class HomeScreen extends Component {
 // </TouchableOpacity>
 
 	render() {
-		const {} = styles
+		// const {} = styles
 		const {navigate} = this.props.navigation
 		// console.log(this.state.feedsDetails)
 		return (
@@ -70,8 +70,8 @@ class HomeScreen extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
-	styleTop: {},
-})
+// const styles = StyleSheet.create({
+// 	styleTop: {},
+// })
 
 export default HomeScreen
