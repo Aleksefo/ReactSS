@@ -64,6 +64,13 @@ class SelectedScreen extends Component {
 	// 	)
 	// }
 
+	removeFeed(e) {
+		let array = this.state.news;
+		let index = array.indexOf(e.target.value)
+		array.splice(index, 1);
+		this.setState({people: array });
+	}
+
 	renderNews() {
 		return (
 			<View style={styles.container}>
@@ -104,6 +111,7 @@ class SelectedScreen extends Component {
 								height: 60,
 								width: 80,
 							}}
+							onPress={() => console.log('This item ',item)}
 						>
 							<View
 								style={{

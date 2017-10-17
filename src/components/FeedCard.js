@@ -9,7 +9,6 @@ const FeedCard = (props) => {
 	}
 
 	return (
-
 			<View style={styleCard}>
 				<View style={styleText}>
 					<Text style={styleTitle}>{props.feed.fTitle}</Text>
@@ -17,8 +16,6 @@ const FeedCard = (props) => {
 				</View>
 				<Image resizeMode="contain" source={{uri: props.feed.fImage}} style={styleImage}/>
 			</View>
-
-
 	)
 }
 

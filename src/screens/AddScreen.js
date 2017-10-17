@@ -46,14 +46,15 @@ class AddScreen extends Component {
 		// }
 		// this.setState({fTitle});
 		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
-		// console.log('updated state:',this.state)
+		console.log('updated state:',this.state)
 	}
 
-	async fetchRSS() {
+	async addFeed() {
 		await fetch(this.state.url)
 			.then(response => response.text())
 			.then((responseText) => {
 				this.parseVideos(responseText)
+				this.saveRSSLocally()
 			}).catch((err) => {
 				console.log('fetch', err)
 			})
@@ -72,7 +73,7 @@ class AddScreen extends Component {
 		}
 		this.props.navigation.navigate('Home', {newFeed: this.state.url})
 	}
-
+	
 	render() {
 		// const {} = styles
 		// const {navigate} = this.props.navigation
@@ -92,7 +93,7 @@ class AddScreen extends Component {
 
 				<Button
 					// onPress={() => navigate('Home', {newFeed: this.state.url})}
-					onPress={() => this.saveRSSLocally()}
+					onPress={() => this.addFeed()}
 					title="Add feed"
 					color="#841584"
 				/>
