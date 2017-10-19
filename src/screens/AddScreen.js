@@ -1,22 +1,22 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, Button, TextInput, Text, AsyncStorage} from 'react-native'
+import {View, StyleSheet, Button, Text, AsyncStorage, Image} from 'react-native'
 import {Sae} from 'react-native-textinput-effects'
 import {FontAwesome} from '@expo/vector-icons'
 import {DOMParser} from 'xmldom'
 
 class AddScreen extends Component {
-	state = {url: '', feedInf: {fTitle: '',fLink: 'link',fDescription: '',fImage: ''} }
+	state = {url: '', feedInf: {fTitle: '',fLink: '',fDescription: '',fImage: ''} }
 
 	static navigationOptions = {
 		title: 'Add new RSS feed',
 	}
 
-	parseVideos(responseText) {
+	// Parses xml file and get's required data
+	parseDetails(responseText) {
 		let doc = new DOMParser().parseFromString(responseText, 'url/xml');
 		let fLink = ''
 		let fDescription = ''
 		let fImage = ''
-		// console.log("doc: %O", doc)
 		let fTitle = doc.getElementsByTagName("title")[0].childNodes[0].nodeValue
 		try {
 			fLink = doc.getElementsByTagName("uri")[0].childNodes[0].nodeValue
@@ -31,40 +31,27 @@ class AddScreen extends Component {
 			fImage = doc.getElementsByTagName("url")[0].childNodes[0].nodeValue
 		} catch (error) {
 		}
-		let videos = doc.getElementsByTagName('yt:videoId');
-		let thumbs = doc.getElementsByTagName('media:thumbnail');
-		// for (let i=0; i < videos.length; i++) {
-		// feedInf.push(
-		// 		// id: videos[i].textContent,
-		// 		// thumbnail: thumbs[i].getAttribute('url')
-		// 		fTitle,
-		// 		fLink,
-		// 		fDescription,
-		// 		fImage
-		//
-		// 	)
-		// }
-		// this.setState({fTitle});
 		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
 		console.log('updated state:',this.state)
 	}
 
-	async addFeed() {
-		await fetch(this.state.url)
+	// fetches xml data from url
+	async addFeed(url) {
+		await fetch(url)
 			.then(response => response.text())
 			.then((responseText) => {
-				this.parseVideos(responseText)
-				this.saveRSSLocally()
+				this.parseDetails(responseText)
 			}).catch((err) => {
 				console.log('fetch', err)
 			})
 	}
 
+	// Saves RSS data to local storage and then navigates to home screen
 	async saveRSSLocally() {
 		try {
 			await AsyncStorage.getItem('RSSListData')
 				.then(keys => {
-					keys = keys == null ? [] : JSON.parse(keys)
+					keys = keys === null ? [] : JSON.parse(keys)
 					keys.push(this.state)
 					return AsyncStorage.setItem('RSSListData', JSON.stringify(keys))
 				})
@@ -73,45 +60,66 @@ class AddScreen extends Component {
 		}
 		this.props.navigation.navigate('Home', {newFeed: this.state.url})
 	}
-	
+
 	render() {
-		// const {} = styles
-		// const {navigate} = this.props.navigation
-		// console.log('render: ',this.state.feedInf)
+		const {styleCard, styleImage, styleText, styleTitle, styleDescription, textInput} = styles
 		return (
-			<View>
+			<View >
 				<Sae
 					label={'Paste your RSS link here'}
 					iconClass={FontAwesome}
 					iconName={'pencil'}
 					iconColor={'green'}
-					// TextInput props
-					autoCapitalize={'none'}
-					autoCorrect={false}
-					onChangeText={(url) => this.setState({url})}
+					inputStyle={textInput}
+					onChangeText={(url) => this.addFeed(url)}
 				/>
-
 				<Button
-					// onPress={() => navigate('Home', {newFeed: this.state.url})}
-					onPress={() => this.addFeed()}
+					onPress={() => this.saveRSSLocally()}
 					title="Add feed"
 					color="#841584"
 				/>
-				<Button
-					// onPress={() => navigate('Selected', { user: 'Lucy' })}
-					onPress={() => this.fetchRSS()}
-					title="Chat with Lucy"
-				/>
-				<Text>{this.state.url}</Text>
-				<Text>{this.state.fTitle}</Text>
-				<Text>{this.state.feedInf.fLink}</Text>
+				<View style={styleCard} >
+					<Image resizeMode="contain" source={{uri: this.state.feedInf.fImage}} style={styleImage}/>
+					<View style={styleText}>
+						<Text style={styleTitle}>{this.state.feedInf.fTitle}</Text>
+						<Text style={styleDescription}>{this.state.feedInf.fDescription}</Text>
+						<Text>{this.state.feedInf.fLink}</Text>
+					</View>
+				</View>
 			</View>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
-	styleTop: {},
+	textInput: {
+		color: '#000000',
+	},
+	styleCard: {
+		flex: 1,
+		justifyContent: 'space-between',
+		marginLeft: 5,
+		marginRight: 5,
+		marginTop: 10,
+	},
+	styleImage: {
+		width: 400,
+		height: 100,
+
+	},
+	styleText: {
+		marginLeft: 5,
+		marginTop: 5,
+		marginBottom: 5,
+	},
+	styleTitle: {
+
+		fontWeight: 'bold',
+	},
+	styleDescription: {
+		marginTop: 10,
+		marginBottom: 10,
+	},
 })
 
 export default AddScreen
