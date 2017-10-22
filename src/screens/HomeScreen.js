@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, TouchableOpacity, Text, Button, AsyncStorage} from 'react-native'
-import FeedCard from '../components/FeedCard'
-import {SwipeableFlatList} from 'react-native-swipeable-flat-list'
+import {View, StyleSheet, TouchableOpacity, Text, AsyncStorage, FlatList} from 'react-native'
 
 class HomeScreen extends Component {
 	state = {feeds: []}
@@ -10,7 +8,6 @@ class HomeScreen extends Component {
 		title: 'ReactSS',
 		headerLeft: null,
 		headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}>
-			{/*<Icons name="ios-car" size={28} color="white" />*/}
 			<Text style={styles.add}>Add</Text>
 		</TouchableOpacity>,
 	})
@@ -29,22 +26,26 @@ class HomeScreen extends Component {
 		}
 	}
 
-	// renderFeeds() {
-	// 	return this.state.feeds.map(entry =>
-	// 		<TouchableOpacity key={entry.feedInf.fTitle} onPress={() => this.props.navigation.navigate('Selected', {entry: entry})}>
-	// 			<FeedCard  feed={entry.feedInf} url={entry.url}/>
-	// 		</TouchableOpacity>
-	// 	)
-	// }
+	removeFeed(item) {
+		console.log('clicked on remove! ', item)
+		let spliced = this.state.feeds
+		spliced.splice(item, 1)
+		console.log('spliced ', spliced)
+		this.setState({
+			feeds: spliced
+		})
+		AsyncStorage.setItem('RSSListData', JSON.stringify(spliced))
+	}
 
 	renderFeeds() {
 		return (
 			<View style={styles.container}>
-				<SwipeableFlatList
+				<FlatList
 					data={this.state.feeds}
-					renderItem={({item}) => (
+					renderItem={({item, index}) => (
 						<TouchableOpacity
 							onPress={() => this.props.navigation.navigate('Selected', {entry: item})}
+							onLongPress={() => this.removeFeed(index)}
 							style={{height: 60}}
 						>
 							<View
@@ -78,37 +79,6 @@ class HomeScreen extends Component {
 							</View>
 						</TouchableOpacity>
 					)}
-					renderRight={({item}) => (
-						<TouchableOpacity
-							style={{
-								height: 60,
-								width: 80,
-							}}
-						>
-							<View
-								style={{
-									backgroundColor: 'red',
-									borderColor: 'black',
-									borderWidth: 1,
-									flex: 1,
-									justifyContent: 'center',
-									padding: 8,
-								}}
-							>
-								<Text
-									style={{
-										backgroundColor: 'transparent',
-										color: 'black',
-										fontSize: 16,
-										paddingLeft: 10,
-									}}
-								>
-									Delete
-								</Text>
-							</View>
-						</TouchableOpacity>
-					)}
-					backgroundColor={'pink'}
 				/>
 			</View>
 		)
@@ -118,16 +88,9 @@ class HomeScreen extends Component {
 	render() {
 		// const {} = styles
 		const {navigate} = this.props.navigation
-		// console.log(this.state.feedsDetails)
 		return (
 			<View style={{flex: 1}}>
-				{/*<Button*/}
-				{/*onPress={() => navigate('Selected', { user: 'Lucy' })}*/}
-				{/*// onPress={this.fetchRSS.bind(this)}*/}
-				{/*title="Chat with Lucy"*/}
-				{/*/>*/}
 				{this.renderFeeds()}
-				{/*<FeedCard></FeedCard>*/}
 			</View>
 		)
 	}
@@ -137,7 +100,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
-		//alignItems: 'center',
 		backgroundColor: '#F5FCFF',
 	},
 	welcome: {
@@ -151,7 +113,6 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	styleCard: {
-		// flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		borderWidth: 1,
@@ -166,7 +127,6 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 		marginTop: 10,
-		// height: 50,
 		backgroundColor: 'white',
 	},
 	styleText: {
@@ -188,6 +148,8 @@ const styles = StyleSheet.create({
 	add: {
 		paddingRight: 5,
 		marginRight: 5,
+		color: '#841584',
+		fontWeight: 'bold',
 	}
 })
 

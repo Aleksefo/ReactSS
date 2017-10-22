@@ -38,8 +38,6 @@ console.log('entry props',props.entry)
 
 const styles = StyleSheet.create({
 	styleCard: {
-		// flex: 1,
-		// flexDirection: 'row',
 		justifyContent: 'space-between',
 		borderWidth: 1,
 		borderRadius: 2,
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 		marginTop: 10,
-		// height: 50,
 		backgroundColor: 'white',
 	},
 	styleText: {
@@ -68,9 +65,7 @@ const styles = StyleSheet.create({
 	styleDescription: {},
 	styleImage: {
 		width: 100,
-
 	},
-
 })
 
 export default NewsCard
