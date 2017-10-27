@@ -37,6 +37,7 @@ class AddScreen extends Component {
 
 	// fetches xml data from url
 	async addFeed(url) {
+		this.setState({url})
 		await fetch(url)
 			.then(response => response.text())
 			.then((responseText) => {

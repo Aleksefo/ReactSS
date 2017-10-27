@@ -4,7 +4,8 @@ Cross-platform app for reading RSS feeds built with React Native
 # Functionality
 - Add and remove RSS feeds
 - Browse Feed Entries
-
+- Remove Feeds
+- Share interesting Feed Entries with friends
 
 # Libraries used:
 - Expo and CRNA
@@ -12,7 +13,6 @@ Cross-platform app for reading RSS feeds built with React Native
 - React-native-xml2js
 - React-native-textinput-effects
 - React-native-vector-icons
-- React-native-swipeable-flat-list
 
 
 

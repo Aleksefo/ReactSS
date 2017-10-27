@@ -1,39 +1,46 @@
 import React from 'react'
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native'
-import Swipeout from 'react-native-swipeout'
+import {View, StyleSheet, Text, Image, TouchableOpacity, Linking, Share} from 'react-native'
 
 const NewsCard = (props) => {
 	const {styleCard, styleText, styleDate, styleDescription, styleImage} = styles
-	let descr = 'No description provided'
-	// if (props.feed.fDescription !== '') {
-	// 	descr = props.feed.fDescription
-	// }
-console.log('entry props',props.entry)
-	var swipeoutBtns = [
-		{
-			text: 'Button'
-		}
-	]
+	console.log('entry props', props.entry)
 
 	return (
 		<View style={styleCard}>
-			<Swipeout right={swipeoutBtns}>
-			<Text style={styleText}>{props.entry.title}</Text>
-			<Text style={styleDate}>{props.entry.date}</Text>
-			{/*<Text>{props.entry.link}</Text>*/}
-			{/*<Text>{props.entry.description}</Text>*/}
-			</Swipeout>
+			<TouchableOpacity
+				onPress={() => Linking.openURL(item.link)}
+				onLongPress={() => Share.share({
+					message: props.entry.title,
+					url: props.entry.link,
+					title: props.entry.title
+				})}
+				style={{
+					height: 60,
+				}}
+			>
+				<View
+					style={{
+						backgroundColor: 'lightgrey',
+						borderColor: 'grey',
+						borderWidth: 1,
+						flex: 1,
+						justifyContent: 'center',
+						padding: 8,
+					}}
+				>
+					<Text
+						style={{
+							backgroundColor: 'transparent',
+							color: 'black',
+							fontSize: 16,
+						}}
+					>
+						{props.entry.title}
+					</Text>
+				</View>
+			</TouchableOpacity>
 		</View>
 	)
-	// return (
-	// 	<View style={styleCard}>
-	// 		<View style={styleText}>
-	// 			<Text style={styleTitle}>{props.feed.fTitle}</Text>
-	// 			<Text style={styleDescription}>{descr}</Text>
-	// 		</View>
-	// 		<Image resizeMode="contain" source={{uri: props.feed.fImage}} style={styleImage}/>
-	// 	</View>
-	// )
 }
 
 const styles = StyleSheet.create({
