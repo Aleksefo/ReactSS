@@ -13,7 +13,7 @@ class AddScreen extends Component {
 
 	// Parses xml file and get's required data
 	parseDetails(responseText) {
-		let doc = new DOMParser().parseFromString(responseText, 'url/xml');
+		let doc = new DOMParser().parseFromString(responseText, 'url/xml')
 		let fLink = ''
 		let fDescription = ''
 		let fImage = ''
@@ -31,11 +31,10 @@ class AddScreen extends Component {
 			fImage = doc.getElementsByTagName("url")[0].childNodes[0].nodeValue
 		} catch (error) {
 		}
-		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }});
-		console.log('updated state:',this.state)
+		this.setState({feedInf: {fTitle: fTitle, fLink: fLink, fDescription: fDescription, fImage: fImage }})
 	}
 
-	// fetches xml data from url
+	// Fetches xml data from url
 	async addFeed(url) {
 		this.setState({url})
 		await fetch(url)
@@ -114,7 +113,6 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	styleTitle: {
-
 		fontWeight: 'bold',
 	},
 	styleDescription: {

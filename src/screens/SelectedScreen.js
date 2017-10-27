@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity, Linking, FlatList, Share} from 'react-native'
+import {FlatList} from 'react-native'
 import {DOMParser} from 'xmldom'
 import NewsCard from '../components/NewsCard'
 
@@ -14,10 +14,9 @@ class SelectedScreen extends Component {
 	});
 
 	componentDidMount() {
-		console.log('SelectedScreen DidMount')
 		this.fetchRSS()
 	}
-	// fetches xml data from url
+	// Fetches xml data from url
 	async fetchRSS() {
 		await fetch(this.state.url)
 			.then(response => response.text())
@@ -30,14 +29,12 @@ class SelectedScreen extends Component {
 
 	// Parses xml file and get's required data
 	parseDetails(responseText) {
-		let doc = new DOMParser().parseFromString(responseText, 'url/xml');
+		let doc = new DOMParser().parseFromString(responseText, 'url/xml')
 		let objs = []
-		let titles = doc.getElementsByTagName('title');
-		let dates = doc.getElementsByTagName('pubDate');
-		let links = doc.getElementsByTagName('link');
-		let descriptions = doc.getElementsByTagName('description');
-		let videos = doc.getElementsByTagName('yt:videoId');
-		let thumbs = doc.getElementsByTagName('media:thumbnail');
+		let titles = doc.getElementsByTagName('title')
+		let dates = doc.getElementsByTagName('pubDate')
+		let links = doc.getElementsByTagName('link')
+		let descriptions = doc.getElementsByTagName('description')
 		for (let i = 1; i < dates.length; i++) {
 			objs.push({
 				title: titles[i + 1].childNodes[0].nodeValue,
@@ -46,49 +43,21 @@ class SelectedScreen extends Component {
 				description: descriptions[i].childNodes[0].nodeValue,
 			})
 		}
-		this.setState({news: objs});
-		console.log('updated Video state:', this.state)
+		this.setState({news: objs})
 	}
 
-	renderNews() {
-		return (
-			<View style={styles.container}>
-				<FlatList
-					data={this.state.news}
-					renderItem={({item}) => (
-						<NewsCard entry={item}/>
-					)}
-				/>
-			</View>
-		)
-	}
-
+	//Generates a list of Feeds from State array
 	render() {
-		// const {} = styles
 		return (
-			<View style={{flex: 1}}>
-				{this.renderNews()}
-			</View>
+			<FlatList
+				data={this.state.news}
+				keyExtractor={(item, index) => index}
+				renderItem={({item}) => (
+					<NewsCard entry={item}/>
+				)}
+			/>
 		)
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		backgroundColor: '#F5FCFF',
-	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		margin: 10,
-	},
-	instructions: {
-		textAlign: 'center',
-		color: '#333333',
-		marginBottom: 5,
-	},
-})
 
 export default SelectedScreen
