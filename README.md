@@ -4,7 +4,6 @@ Cross-platform app for reading RSS feeds built with React Native
 # Functionality
 - Add and remove RSS feeds
 - Browse Feed Entries
-- Remove Feeds
 - Share interesting Feed Entries with friends
 
 # Libraries used:
@@ -15,9 +14,8 @@ Cross-platform app for reading RSS feeds built with React Native
 - React-native-vector-icons
 
 
-
 # Video Preview
 
-[Download here](/resources/DoDs.apk)
+[Available at Expo for both iOS and Android](https://expo.io/@aleksefo/reactss)
 
-[![Alt text](https://img.youtube.com/vi/bgzfcyJweNI/0.jpg)](https://www.youtube.com/watch?v=bgzfcyJweNI)
+[![Alt text](https://img.youtube.com/vi/b0Ba4n1ahDc/0.jpg)](https://www.youtube.com/watch?v=b0Ba4n1ahDc)
